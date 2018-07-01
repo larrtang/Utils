@@ -1,0 +1,18 @@
+menuentry "System shutdown" {
+	echo "System shutting down..."
+	halt
+}
+menuentry "System restart" {
+	echo "System rebooting..."
+	reboot
+}
+if [ "${grub_platform}" == "pc" ]; then
+  menuentry "Microsoft Windows Vista/7/8/8.1/10 BIOS/MBR" {
+    insmod part_msdos
+    insmod ntfs
+    insmod search_fs_uuid
+    insmod ntldr     
+    search --fs-uuid --set=root --hint-bios=hd0,msdos1 --hint-efi=hd0,msdos1 --hint-baremetal=ahci0,msdos1 C0907D2F907D2CD2
+    ntldr /bootmgr
+  }
+fi
